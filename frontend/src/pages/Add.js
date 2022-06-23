@@ -1,6 +1,6 @@
 import React from 'react';
-import TimePicker from '../components/TimePicker.js';
-import BasicCard from '../components/Card/BasicCard.js';
+import TimePicker from 'components/TimePicker.js';
+import BasicCard from 'components/Card/BasicCard.js';
 
 import { Grid, TextField } from '@mui/material';
 
