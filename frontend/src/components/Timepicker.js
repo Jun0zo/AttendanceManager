@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 
-export default function StaticTimePickerDemo() {
+export default function TimePicker() {
   const [value, setValue] = React.useState(new Date());
 
   return (

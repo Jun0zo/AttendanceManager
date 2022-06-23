@@ -99,12 +99,7 @@ export default function Login() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="로그인 정보 저장"
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Sign In
               </Button>
               <Grid container>
