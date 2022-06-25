@@ -7,7 +7,8 @@ import BasicTemplate from '../templates/BasicTemplate.js';
 import Inputs from '../components/AddPlans/Inputs.js';
 import Table from '../components/AddPlans/Table.js';
 import Container from '@mui/material/Container';
-import styles from './AddPlans.module.css';
+
+import { useRecoilState } from 'recoil';
 
 export default function AddPlans() {
   return (
