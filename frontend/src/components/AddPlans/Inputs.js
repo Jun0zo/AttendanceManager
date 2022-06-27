@@ -12,8 +12,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
-import { companyAtom } from '../../_state/company.js'
-import { useActions as useCompanyActions } from '../../_actions/company.actions.js'
+import { companyAtom } from '../../_state/company.js';
+import { userAtom } from '../../_state/user.js';
+import { useActions as useCompanyActions } from '../../_actions/company.actions.js';
+import { useActions as useUserActions } from '../../_actions/user.actions.js';
 
 function BasicSelect(props) {
   const [age, setAge] = React.useState('');
@@ -21,15 +23,6 @@ function BasicSelect(props) {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-
-  const companyActions = useCompanyActions()
-  
-  const company_list = useRecoilValue(companyAtom)
-
-  useEffect(() => {
-    companyActions.get()
-    console.log("company actions 3", company_list)
-  }, [])
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -40,8 +33,8 @@ function BasicSelect(props) {
           label={props.label}
           onChange={handleChange}
         >
-        {company_list.map(company => (
-          <MenuItem value={company.cid}>{company.name}</MenuItem>
+        {props.selectable_list.map(select => (
+          <MenuItem value={select.cid}>{select.name}</MenuItem>
         ))}
         </Select>
       </FormControl>
@@ -70,11 +63,20 @@ function ResponsiveDatePickers() {
 }
 
 export default function Inputs() {
+  const companyActions = useCompanyActions();
+  const userActions = useUserActions();
+  const company_list = useRecoilValue(companyAtom);
+  const user_list = useRecoilValue(userAtom);
+
+  useEffect(() => {
+    companyActions.get();
+    userActions.get();
+  }, [])
   return (
     <div>
       <Stack spacing={3}>
-        <BasicSelect label={'회사'}/>
-        <BasicSelect label={'직원'}/>
+        <BasicSelect label={'회사'} selectable_list={company_list}/>
+        <BasicSelect label={'직원'} selectable_list={user_list}/>
         <ResponsiveDatePickers />
       </Stack>
     </div>
