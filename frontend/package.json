@@ -74,6 +74,7 @@
     "format": "prettier --check ./src",
     "format:fix": "prettier --write ./src"
   },
+  "proxy": "http://localhost:9000/api",
   "eslintConfig": {
     "extends": "react-app"
   },

@@ -1,4 +1,6 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -10,25 +12,37 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
-function BasicSelect() {
+import { companyAtom } from '../../_state/company.js'
+import { useActions as useCompanyActions } from '../../_actions/company.actions.js'
+
+function BasicSelect(props) {
   const [age, setAge] = React.useState('');
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
 
+  const companyActions = useCompanyActions()
+  
+  const company_list = useRecoilValue(companyAtom)
+
+  useEffect(() => {
+    companyActions.get()
+    console.log("company actions 3", company_list)
+  }, [])
+
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel>Age</InputLabel>
+        <InputLabel>{props.label}</InputLabel>
         <Select
           value={age}
-          label="Age"
+          label={props.label}
           onChange={handleChange}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+        {company_list.map(company => (
+          <MenuItem value={company.cid}>{company.name}</MenuItem>
+        ))}
         </Select>
       </FormControl>
     </Box>
@@ -59,8 +73,8 @@ export default function Inputs() {
   return (
     <div>
       <Stack spacing={3}>
-        <BasicSelect />
-        <BasicSelect />
+        <BasicSelect label={'회사'}/>
+        <BasicSelect label={'직원'}/>
         <ResponsiveDatePickers />
       </Stack>
     </div>

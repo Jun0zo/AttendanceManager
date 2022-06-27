@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
 import sqlite3 from 'sqlite3';
 const app = express()
 const port = 9000
@@ -14,6 +15,7 @@ let db = new sqlite3.Database('./db/data.db', sqlite3.OPEN_READWRITE, (err) => {
 
 const build_path = path.join(__dirname, '../', 'frontend', 'build')
 
+app.use(cors())
 app.use(express.static(build_path));
 
 app.get('/', (req, res) => {
@@ -30,6 +32,7 @@ app.get('/api/company', (req, res) => {
 })
 
 app.get('/api/user', (req, res) => {
+  console.log('user!!')
   db.all(`SELECT * FROM user`,function (err, rows) {
     if (err) {
       return console.error(err.message)
