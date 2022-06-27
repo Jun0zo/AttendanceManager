@@ -18,10 +18,10 @@ import { useActions as useCompanyActions } from '../../_actions/company.actions.
 import { useActions as useUserActions } from '../../_actions/user.actions.js';
 
 function BasicSelect(props) {
-  const [age, setAge] = React.useState('');
+  const [selected, setSelected] = props.selected_state;
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setSelected(event.target.value);
   };
 
   return (
@@ -29,12 +29,12 @@ function BasicSelect(props) {
       <FormControl fullWidth>
         <InputLabel>{props.label}</InputLabel>
         <Select
-          value={age}
+          value={selected}
           label={props.label}
           onChange={handleChange}
         >
         {props.selectable_list.map(select => (
-          <MenuItem value={select.cid}>{select.name}</MenuItem>
+          <MenuItem value={select.cid ? select.cid : select.uid}>{select.name}</MenuItem>
         ))}
         </Select>
       </FormControl>
@@ -62,11 +62,14 @@ function ResponsiveDatePickers() {
   );
 }
 
-export default function Inputs() {
+export default function Inputs(props) {
   const companyActions = useCompanyActions();
   const userActions = useUserActions();
   const company_list = useRecoilValue(companyAtom);
   const user_list = useRecoilValue(userAtom);
+
+  const selected_company_state = props.selected_state.company;
+  const selected_user_state = props.selected_state.user;
 
   useEffect(() => {
     companyActions.get();
@@ -75,8 +78,8 @@ export default function Inputs() {
   return (
     <div>
       <Stack spacing={3}>
-        <BasicSelect label={'회사'} selectable_list={company_list}/>
-        <BasicSelect label={'직원'} selectable_list={user_list}/>
+        <BasicSelect label={'회사'} selectable_list={company_list} selected_state={selected_company_state}/>
+        <BasicSelect label={'직원'} selectable_list={user_list} selected_state={selected_user_state}/>
         <ResponsiveDatePickers />
       </Stack>
     </div>
