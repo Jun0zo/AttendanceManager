@@ -11,6 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 
 import { companyAtom } from '../../_state/company.js';
 import { userAtom } from '../../_state/user.js';
@@ -42,9 +43,9 @@ function BasicSelect(props) {
   );
 }
 
-function ResponsiveDatePickers() {
-  const [value, setValue] = React.useState(new Date());
-
+function ResponsiveDatePickers(props) {
+  const [selected_date, setSeletedDate] = props.selected_date_state;
+  console.log(selected_date);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
@@ -52,15 +53,33 @@ function ResponsiveDatePickers() {
         label="Responsive"
         openTo="year"
         views={['year', 'month', 'day']}
-        value={value}
+        value={selected_date}
         onChange={(newValue) => {
-          setValue(newValue);
+          setSeletedDate(newValue);
         }}
         renderInput={(params) => <TextField {...params} />}
       />
     </LocalizationProvider>
   );
 }
+
+function TimePicker(props) {
+  const [selected_time, setSeletedTime] = props.selected_time_state;
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <StaticTimePicker
+        displayStaticWrapperAs="mobile"
+        value={selected_time}
+        onChange={(newValue) => {
+          setSeletedTime(newValue);
+        }}
+        renderInput={(params) => <TextField {...params} />}
+      />
+    </LocalizationProvider>
+  );
+}
+
 
 export default function Inputs(props) {
   const companyActions = useCompanyActions();
@@ -70,6 +89,8 @@ export default function Inputs(props) {
 
   const selected_company_state = props.selected_state.company;
   const selected_user_state = props.selected_state.user;
+  const selected_time_state = props.selected_state.time;
+  const selected_date_state = props.selected_state.date;
 
   useEffect(() => {
     companyActions.get();
@@ -80,7 +101,8 @@ export default function Inputs(props) {
       <Stack spacing={3}>
         <BasicSelect label={'회사'} selectable_list={company_list} selected_state={selected_company_state}/>
         <BasicSelect label={'직원'} selectable_list={user_list} selected_state={selected_user_state}/>
-        <ResponsiveDatePickers />
+        <ResponsiveDatePickers selected_date_state={selected_date_state}/>
+        <TimePicker selected_time_state={selected_time_state}/>
       </Stack>
     </div>
   );
