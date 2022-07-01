@@ -24,6 +24,7 @@ export default function BasicTable(props) {
   const [selected_company, setSeletedCompany] = props.selected_state.company;
   const [selected_user, setSeletedUser] = props.selected_state.user;
   const [selected_date, setSeletedDate] = props.selected_state.date;
+  const selected_month = props.selected_month;
 
   useEffect(() => {
     console.log(selected_user)

@@ -39,7 +39,7 @@ export default function AddPlans() {
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
             <BasicCard title={selected_month == '' ? '' : selected_month + '월 ' + "출퇴근 목록"}>
-              <Table selected_state={selected_state} />
+              <Table selected_month={selected_month} selected_state={selected_state} />
             </BasicCard>
           </Grid>
         </Grid>

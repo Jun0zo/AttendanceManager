@@ -35,7 +35,7 @@ function BasicSelect(props) {
           onChange={handleChange}
         >
         {props.selectable_list.map(select => (
-          <MenuItem value={select.cid ? select.cid : select.uid}>{select.name}</MenuItem>
+          <MenuItem value={select.id}>{select.name}</MenuItem>
         ))}
         </Select>
       </FormControl>
@@ -45,7 +45,7 @@ function BasicSelect(props) {
 
 function ResponsiveDatePickers(props) {
   const [selected_date, setSeletedDate] = props.selected_date_state;
-  console.log(selected_date);
+  
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
@@ -80,7 +80,6 @@ function TimePicker(props) {
   );
 }
 
-
 export default function Inputs(props) {
   const companyActions = useCompanyActions();
   const userActions = useUserActions();
@@ -96,6 +95,11 @@ export default function Inputs(props) {
     companyActions.get();
     userActions.get();
   }, [])
+
+  useEffect(() => {
+    console.log('conm', company_list)
+  }, [company_list])
+
   return (
     <div>
       <Stack spacing={3}>
