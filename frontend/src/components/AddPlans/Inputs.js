@@ -18,6 +18,8 @@ import { userAtom } from '../../_state/user.js';
 import { useActions as useCompanyActions } from '../../_actions/company.actions.js';
 import { useActions as useUserActions } from '../../_actions/user.actions.js';
 
+import { dateFormat } from '../../_helpers/formatting.js';
+
 function BasicSelect(props) {
   const [selected, setSelected] = props.selected_state;
 
@@ -55,9 +57,10 @@ function ResponsiveDatePickers(props) {
         views={['year', 'month', 'day']}
         value={selected_date}
         onChange={(newValue) => {
+          console.log(dateFormat(newValue, 'YYYY-MM-DD'))
           setSeletedDate(newValue);
         }}
-        renderInput={(params) => <TextField {...params} />}
+        renderInput={(params) => { params.inputProps.value = dateFormat(selected_date, 'YYYY-MM-DD'); return <TextField {...params} />}}
       />
     </LocalizationProvider>
   );
