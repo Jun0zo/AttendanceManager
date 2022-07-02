@@ -4,15 +4,17 @@ import cors from 'cors';
 
 import user from './routes/api/user';
 import company from './routes/api/company';
-import db from './helpers/db.js'
+import attendance from './routes/api/attendance';
 
 const build_path = path.join(__dirname, '../', 'frontend', 'build')
 const app = express()
 const port = 9000
 
+app.use(express.json())
 app.use(cors());
 app.use('/api', user);
 app.use('/api', company);
+app.use('/api', attendance);
 app.use(express.static(build_path));
 
 app.get('/', (req, res) => {

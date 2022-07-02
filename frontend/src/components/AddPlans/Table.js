@@ -7,24 +7,28 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import { useRecoilValue } from 'recoil';
+
+import { attendanceAtom } from '../../_state/attendance.js';
+import { useActions as useAttendanceActions } from '../../_actions/attendance.actions.js';
+
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 export default function BasicTable(props) {
+  const attendacne_list = useRecoilValue(attendanceAtom);
+  const attendanceActions = useAttendanceActions()
 
   const [selected_company, setSeletedCompany] = props.selected_state.company;
   const [selected_user, setSeletedUser] = props.selected_state.user;
   const [selected_date, setSeletedDate] = props.selected_state.date;
   const selected_month = props.selected_month;
+
+  useEffect(() => {
+    console.log(selected_date)
+    attendanceActions.get(selected_date);
+  }, [selected_date])
 
   useEffect(() => {
     console.log(selected_user)
@@ -35,22 +39,18 @@ export default function BasicTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>날짜</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell align="right">이름</TableCell>
+            <TableCell align="right">시간</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+          {attendacne_list.map((attendacne) => (
+            <TableRow key={attendacne.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {attendacne.date}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{attendacne.name}</TableCell>
+              <TableCell align="right">{attendacne.time}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -5,9 +5,10 @@ export function useFetchWrapper() {
     return (url, body) => {
       const requestOptions = {
         method,
-        // headers: authHeader(url)
+        headers: authHeader(url)
       };
       if (body) {
+        console.log(body)
         requestOptions.headers['Content-Type'] = 'application/json';
         requestOptions.body = JSON.stringify(body);
       }
@@ -17,6 +18,7 @@ export function useFetchWrapper() {
 
   const handleResponse = (response) => {
     return response.text().then(text => {
+        console.log(text)
         const data = text && JSON.parse(text);
         console.log("dat:", data)
         if (!response.ok) {
@@ -26,7 +28,6 @@ export function useFetchWrapper() {
                 // setAuth(null);
                 // history.push('/account/login');
             }
-
             const error = (data && data.message) || response.statusText;
             // alertActions.error(error);
             return Promise.reject(error);
@@ -34,7 +35,11 @@ export function useFetchWrapper() {
 
         return data;
     });
-  }  
+  }
+
+  const authHeader = (url) => {
+    return {}
+  }
 
   return {
     get: request('GET'),
