@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,7 +18,7 @@ function createData(name, calories, fat, carbs, protein) {
 
 export default function BasicTable(props) {
   const attendacne_list = useRecoilValue(attendanceAtom);
-  const attendanceActions = useAttendanceActions()
+  const attendanceActions = useAttendanceActions();
 
   const [selected_company, setSeletedCompany] = props.selected_state.company;
   const [selected_user, setSeletedUser] = props.selected_state.user;
@@ -26,13 +26,13 @@ export default function BasicTable(props) {
   const selected_month = props.selected_month;
 
   useEffect(() => {
-    console.log(selected_date)
+    console.log(selected_date);
     attendanceActions.get(selected_date);
-  }, [selected_date])
+  }, [selected_date]);
 
   useEffect(() => {
-    console.log(selected_user)
-  }, [selected_user])
+    console.log(selected_user);
+  }, [selected_user]);
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
@@ -45,10 +45,11 @@ export default function BasicTable(props) {
         </TableHead>
         <TableBody>
           {attendacne_list.map((row) => (
-            <TableRow key={row.attendance_name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell align="right">
-                {row.date}
-              </TableCell>
+            <TableRow
+              key={row.attendance_name}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="right">{row.date}</TableCell>
               <TableCell align="right">{row.name}</TableCell>
               <TableCell align="right">{row.time}</TableCell>
             </TableRow>

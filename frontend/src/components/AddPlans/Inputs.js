@@ -26,17 +26,13 @@ function getMenuItems(type, selectable_list) {
   if (type == 'user') {
     type_id = 'user_id';
     type_name = 'user_name';
-  }
-
-  else if (type == 'company') {
+  } else if (type == 'company') {
     type_id = 'company_id';
     type_name = 'company_name';
   }
-  return (
-      selectable_list.map(select => (
-        <MenuItem value={select[type_id]}>{select[type_name]}</MenuItem>
-      ))
-  )
+  return selectable_list.map((select) => (
+    <MenuItem value={select[type_id]}>{select[type_name]}</MenuItem>
+  ));
 }
 
 function BasicSelect(props) {
@@ -50,12 +46,8 @@ function BasicSelect(props) {
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel>{props.label}</InputLabel>
-        <Select
-          value={selected}
-          label={props.label}
-          onChange={handleChange}
-        >
-        {getMenuItems(props.type, props.selectable_list)};
+        <Select value={selected} label={props.label} onChange={handleChange}>
+          {getMenuItems(props.type, props.selectable_list)};
         </Select>
       </FormControl>
     </Box>
@@ -64,7 +56,7 @@ function BasicSelect(props) {
 
 function ResponsiveDatePickers(props) {
   const [selected_date, setSeletedDate] = props.selected_date_state;
-  
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
@@ -74,10 +66,13 @@ function ResponsiveDatePickers(props) {
         views={['year', 'month', 'day']}
         value={selected_date}
         onChange={(newValue) => {
-          console.log(dateFormat(newValue, 'YYYY-MM-DD'))
+          console.log(dateFormat(newValue, 'YYYY-MM-DD'));
           setSeletedDate(newValue);
         }}
-        renderInput={(params) => { params.inputProps.value = dateFormat(selected_date, 'YYYY-MM-DD'); return <TextField {...params} />}}
+        renderInput={(params) => {
+          params.inputProps.value = dateFormat(selected_date, 'YYYY-MM-DD');
+          return <TextField {...params} />;
+        }}
       />
     </LocalizationProvider>
   );
@@ -114,19 +109,29 @@ export default function Inputs(props) {
   useEffect(() => {
     companyActions.get();
     userActions.get();
-  }, [])
+  }, []);
 
   useEffect(() => {
-    console.log('conm', company_list)
-  }, [company_list])
+    console.log('conm', company_list);
+  }, [company_list]);
 
   return (
     <div>
       <Stack spacing={3}>
-        <BasicSelect label={'회사'} type={'company'} selectable_list={company_list} selected_state={selected_company_state}/>
-        <BasicSelect label={'직원'} type={'user'} selectable_list={user_list} selected_state={selected_user_state}/>
-        <ResponsiveDatePickers selected_date_state={selected_date_state}/>
-        <TimePicker selected_time_state={selected_time_state}/>
+        <BasicSelect
+          label={'회사'}
+          type={'company'}
+          selectable_list={company_list}
+          selected_state={selected_company_state}
+        />
+        <BasicSelect
+          label={'직원'}
+          type={'user'}
+          selectable_list={user_list}
+          selected_state={selected_user_state}
+        />
+        <ResponsiveDatePickers selected_date_state={selected_date_state} />
+        <TimePicker selected_time_state={selected_time_state} />
       </Stack>
     </div>
   );
