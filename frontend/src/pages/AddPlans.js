@@ -6,6 +6,7 @@ import BasicTemplate from '../templates/BasicTemplate.js';
 import Inputs from '../components/AddPlans/Inputs.js';
 import Table from '../components/AddPlans/Table.js';
 import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
 
 import { dateFormat } from '../_helpers/formatting.js'
 
@@ -33,7 +34,7 @@ export default function AddPlans() {
       <Container maxWidth="lg" sx={{ mt: 8 + 5, mb:5 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={6} lg={6}>
-            <BasicCard title={"등록"}>
+            <BasicCard title={"등록"} card_action={<Button variant="contained">Contained</Button>}>
               <Inputs selected_state={selected_state}/>
             </BasicCard>
           </Grid>

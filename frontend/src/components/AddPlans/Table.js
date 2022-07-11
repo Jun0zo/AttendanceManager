@@ -35,22 +35,22 @@ export default function BasicTable(props) {
   }, [selected_user])
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>날짜</TableCell>
+            <TableCell align="right">날짜</TableCell>
             <TableCell align="right">이름</TableCell>
             <TableCell align="right">시간</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {attendacne_list.map((attendacne) => (
-            <TableRow key={attendacne.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell component="th" scope="row">
-                {attendacne.date}
+          {attendacne_list.map((row) => (
+            <TableRow key={row.attendance_name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableCell align="right">
+                {row.date}
               </TableCell>
-              <TableCell align="right">{attendacne.name}</TableCell>
-              <TableCell align="right">{attendacne.time}</TableCell>
+              <TableCell align="right">{row.name}</TableCell>
+              <TableCell align="right">{row.time}</TableCell>
             </TableRow>
           ))}
         </TableBody>

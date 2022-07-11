@@ -20,6 +20,25 @@ import { useActions as useUserActions } from '../../_actions/user.actions.js';
 
 import { dateFormat } from '../../_helpers/formatting.js';
 
+function getMenuItems(type, selectable_list) {
+  let type_id = '';
+  let type_name = '';
+  if (type == 'user') {
+    type_id = 'user_id';
+    type_name = 'user_name';
+  }
+
+  else if (type == 'company') {
+    type_id = 'company_id';
+    type_name = 'company_name';
+  }
+  return (
+      selectable_list.map(select => (
+        <MenuItem value={select[type_id]}>{select[type_name]}</MenuItem>
+      ))
+  )
+}
+
 function BasicSelect(props) {
   const [selected, setSelected] = props.selected_state;
 
@@ -36,9 +55,7 @@ function BasicSelect(props) {
           label={props.label}
           onChange={handleChange}
         >
-        {props.selectable_list.map(select => (
-          <MenuItem value={select.id}>{select.name}</MenuItem>
-        ))}
+        {getMenuItems(props.type, props.selectable_list)};
         </Select>
       </FormControl>
     </Box>
@@ -106,8 +123,8 @@ export default function Inputs(props) {
   return (
     <div>
       <Stack spacing={3}>
-        <BasicSelect label={'회사'} selectable_list={company_list} selected_state={selected_company_state}/>
-        <BasicSelect label={'직원'} selectable_list={user_list} selected_state={selected_user_state}/>
+        <BasicSelect label={'회사'} type={'company'} selectable_list={company_list} selected_state={selected_company_state}/>
+        <BasicSelect label={'직원'} type={'user'} selectable_list={user_list} selected_state={selected_user_state}/>
         <ResponsiveDatePickers selected_date_state={selected_date_state}/>
         <TimePicker selected_time_state={selected_time_state}/>
       </Stack>

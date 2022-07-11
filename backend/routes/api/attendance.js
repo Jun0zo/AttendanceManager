@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.post('/attendance', (req, res) => {
   let date = req.body.date;
-  db.all(`SELECT * FROM attendance WHERE date LIKE '%${date}%'`,function (err, rows) {
+  db.all(`SELECT * FROM attendance WHERE attendance_date LIKE '%${date}%'`, (err, rows) => {
     if (err) {
       return console.error(err.message)
     }
