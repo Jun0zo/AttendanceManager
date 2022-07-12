@@ -66,7 +66,6 @@ function ResponsiveDatePickers(props) {
         views={['year', 'month', 'day']}
         value={selected_date}
         onChange={(newValue) => {
-          console.log(dateFormat(newValue, 'YYYY-MM-DD'));
           setSeletedDate(newValue);
         }}
         renderInput={(params) => {
@@ -106,14 +105,15 @@ export default function Inputs(props) {
   const selected_time_state = props.selected_state.time;
   const selected_date_state = props.selected_state.date;
 
+  const [selected_company, setSelectedCompany] = selected_company_state;
+
   useEffect(() => {
     companyActions.get();
-    userActions.get();
   }, []);
 
   useEffect(() => {
-    console.log('conm', company_list);
-  }, [company_list]);
+    userActions.get(selected_company);
+  }, [selected_company]);
 
   return (
     <div>

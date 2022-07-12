@@ -29,12 +29,26 @@ export default function AddPlans() {
     setSelectedMonth(dateFormat(selected_date, 'M'));
   }, [selected_date]);
 
+  const addAttendace = () => {
+    console.log(selected_company);
+    console.log(selected_user);
+    console.log(selected_time);
+    console.log(selected_date);
+  };
+
   return (
     <BasicTemplate>
       <Container maxWidth="lg" sx={{ mt: 8 + 5, mb: 5 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={6} lg={6}>
-            <BasicCard title={'등록'} card_action={<Button variant="contained">등록하기</Button>}>
+            <BasicCard
+              title={'등록'}
+              card_action={
+                <Button variant="contained" onClick={addAttendace}>
+                  등록하기
+                </Button>
+              }
+            >
               <Inputs selected_state={selected_state} />
             </BasicCard>
           </Grid>

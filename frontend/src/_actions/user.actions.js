@@ -7,8 +7,10 @@ export function useActions() {
   const fetchWrapper = useFetchWrapper();
   const [user, setUser] = useRecoilState(userAtom);
 
-  const get = () => {
-    return fetchWrapper.get('http://localhost:9000/api/user').then(setUser);
+  const get = (company) => {
+    company = company ? company : -1;
+    let url = `http://localhost:9000/api/user?company=${company}`;
+    return fetchWrapper.get(url).then(setUser);
   };
 
   return { get };
