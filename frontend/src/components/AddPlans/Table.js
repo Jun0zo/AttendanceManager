@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import { useRecoilValue } from 'recoil';
 
 import { attendanceAtom } from '../../_state/attendance.js';
+import { companyAtom } from '../../_state/company.js';
 import { useActions as useAttendanceActions } from '../../_actions/attendance.actions.js';
 
 function createData(name, calories, fat, carbs, protein) {
@@ -18,6 +19,7 @@ function createData(name, calories, fat, carbs, protein) {
 
 export default function BasicTable(props) {
   const attendacne_list = useRecoilValue(attendanceAtom);
+  const company_list = useRecoilValue(companyAtom);
   const attendanceActions = useAttendanceActions();
 
   const [selected_company, setSeletedCompany] = props.selected_state.company;
@@ -26,9 +28,16 @@ export default function BasicTable(props) {
   const selected_month = props.selected_month;
 
   useEffect(() => {
-    console.log(selected_date);
-    attendanceActions.get(selected_date);
-  }, [selected_date]);
+    console.log(selected_date, selected_company, company_list[selected_company], company_list);
+    let selected_company_info = company_list.filter(
+      (company_info) => company_info.company_id == selected_company,
+    );
+    if (selected_company_info[0]) {
+      attendanceActions.get(selected_date, selected_company_info[0].company_name);
+    } else {
+      attendanceActions.get(selected_date);
+    }
+  }, [selected_date, selected_company]);
 
   useEffect(() => {
     console.log(selected_user);
@@ -49,9 +58,9 @@ export default function BasicTable(props) {
               key={row.attendance_name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="right">{row.date}</TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.time}</TableCell>
+              <TableCell align="right">{row.attendance_date}</TableCell>
+              <TableCell align="right">{row.user_name}</TableCell>
+              <TableCell align="right">{row.attendance_date}</TableCell>
             </TableRow>
           ))}
         </TableBody>

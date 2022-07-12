@@ -2,13 +2,18 @@ import './App.css';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login.js';
 import AddPlans from './pages/AddPlans.js';
 
 function App() {
   return (
     <RecoilRoot>
-      <AddPlans />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/attendance" element={<AddPlans />}></Route>
+        </Routes>
+      </BrowserRouter>
     </RecoilRoot>
   );
 }

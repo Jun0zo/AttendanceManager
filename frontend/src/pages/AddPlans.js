@@ -34,7 +34,7 @@ export default function AddPlans() {
       <Container maxWidth="lg" sx={{ mt: 8 + 5, mb: 5 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={6} lg={6}>
-            <BasicCard title={'등록'} card_action={<Button variant="contained">Contained</Button>}>
+            <BasicCard title={'등록'} card_action={<Button variant="contained">등록하기</Button>}>
               <Inputs selected_state={selected_state} />
             </BasicCard>
           </Grid>

@@ -8,19 +8,24 @@ export function useActions() {
   const fetchWrapper = useFetchWrapper();
   const [attendance, setattendance] = useRecoilState(attendanceAtom);
 
-  const get = (date) => {
+  const get = (date, company) => {
     let start_date = new Date(date);
     let end_date = new Date(date);
     end_date.setMonth(date.getMonth() + 1);
     console.log(start_date, end_date);
+
     let start_date_string = dateFormat(start_date, 'YYYY-MM') + '-00 00:00';
     let end_date_string = dateFormat(end_date, 'YYYY-MM') + '-00 00:00';
-    return fetchWrapper
-      .post('http://localhost:9000/api/attendance', {
-        start_date: start_date_string,
-        end_date: end_date_string,
-      })
-      .then(setattendance);
+
+    let payload = {
+      start_date: start_date_string,
+      end_date: end_date_string,
+    };
+
+    if (company) {
+      payload['company'] = company;
+    }
+    return fetchWrapper.post('http://localhost:9000/api/attendance', payload).then(setattendance);
   };
 
   return { get };
