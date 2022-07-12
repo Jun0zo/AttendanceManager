@@ -1,5 +1,3 @@
-import { useRecoilState } from 'recoil';
-
 export function useFetchWrapper() {
   const request = (method) => {
     return (url, body) => {

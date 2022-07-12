@@ -12,7 +12,6 @@ export function useActions() {
     let start_date = new Date(date);
     let end_date = new Date(date);
     end_date.setMonth(date.getMonth() + 1);
-    console.log(start_date, end_date);
 
     let start_date_string = dateFormat(start_date, 'YYYY-MM') + '-00 00:00';
     let end_date_string = dateFormat(end_date, 'YYYY-MM') + '-00 00:00';

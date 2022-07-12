@@ -23,10 +23,10 @@ import { dateFormat } from '../../_helpers/formatting.js';
 function getMenuItems(type, selectable_list) {
   let type_id = '';
   let type_name = '';
-  if (type == 'user') {
+  if (type === 'user') {
     type_id = 'user_id';
     type_name = 'user_name';
-  } else if (type == 'company') {
+  } else if (type === 'company') {
     type_id = 'company_id';
     type_name = 'company_name';
   }

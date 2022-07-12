@@ -13,10 +13,6 @@ import { attendanceAtom } from '../../_state/attendance.js';
 import { companyAtom } from '../../_state/company.js';
 import { useActions as useAttendanceActions } from '../../_actions/attendance.actions.js';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
 export default function BasicTable(props) {
   const attendacne_list = useRecoilValue(attendanceAtom);
   const company_list = useRecoilValue(companyAtom);
@@ -28,9 +24,8 @@ export default function BasicTable(props) {
   const selected_month = props.selected_month;
 
   useEffect(() => {
-    console.log(selected_date, selected_company, company_list[selected_company], company_list);
     let selected_company_info = company_list.filter(
-      (company_info) => company_info.company_id == selected_company,
+      (company_info) => company_info.company_id === selected_company,
     );
     if (selected_company_info[0]) {
       attendanceActions.get(selected_date, selected_company_info[0].company_name);

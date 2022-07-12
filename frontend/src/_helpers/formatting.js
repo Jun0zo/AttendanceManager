@@ -8,19 +8,19 @@ export function dateFormat(date_object, format_string) {
   const month = date_object.getMonth() + 1;
   const date = date_object.getDate();
 
-  if (format_string == 'MM') {
+  if (format_string === 'MM') {
     return zeroFormat(month);
   }
 
-  if (format_string == 'M') {
+  if (format_string === 'M') {
     return month;
   }
 
-  if (format_string == 'YYYY-MM-DD') {
+  if (format_string === 'YYYY-MM-DD') {
     return [String(year), zeroFormat(month), zeroFormat(date)].join('-');
   }
 
-  if (format_string == 'YYYY-MM') {
+  if (format_string === 'YYYY-MM') {
     return [String(year), zeroFormat(month)].join('-');
   }
 }

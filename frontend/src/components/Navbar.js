@@ -39,9 +39,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
-  useEffect(() => {
-    console.log(anchorElNav, anchorElUser);
-  }, [anchorElNav, anchorElUser]);
+  useEffect(() => {}, [anchorElNav, anchorElUser]);
 
   return (
     <AppBar position="fixed">

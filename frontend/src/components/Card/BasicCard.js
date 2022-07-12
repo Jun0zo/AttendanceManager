@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Card, CardHeader, CardContent, CardActions } from '@mui/material';
-import Button from '@mui/material/Button';
 
 export default function BasicCard(props) {
   return (
