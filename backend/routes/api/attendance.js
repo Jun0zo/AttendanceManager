@@ -16,7 +16,19 @@ router.post("/attendance", (req, res) => {
     query += ` AND company_name = "${company}"`;
   }
 
-  console.log(query);
+  db.all(query, (err, rows) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    res.json(rows);
+  });
+});
+
+router.put("/attendance", (req, res) => {
+  let { user_id, attendance_date, company_id, type } = req.body;
+
+  let query = `INSERT INTO attendance VALUES (NULL, "${attendance_date}", ${company_id}, ${user_id}, "${type}");`;
+
   db.all(query, (err, rows) => {
     if (err) {
       return console.error(err.message);

@@ -53,9 +53,9 @@ export default function BasicTable(props) {
               key={row.attendance_name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="right">{row.attendance_date}</TableCell>
+              <TableCell align="right">{row.attendance_date.split(' ')[0]}</TableCell>
               <TableCell align="right">{row.user_name}</TableCell>
-              <TableCell align="right">{row.attendance_date}</TableCell>
+              <TableCell align="right">{row.attendance_date.split(' ')[1]}</TableCell>
             </TableRow>
           ))}
         </TableBody>

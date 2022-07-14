@@ -24,7 +24,7 @@ function getMenuItems(type, selectable_list) {
   let type_id = '';
   let type_name = '';
   if (type === 'user') {
-    type_id = 'user_id';
+    type_id = 'id';
     type_name = 'user_name';
   } else if (type === 'company') {
     type_id = 'company_id';

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import BasicCard from '../components/Card/BasicCard.js';
+import { useRecoilValue } from 'recoil';
 
+import BasicCard from '../components/Card/BasicCard.js';
 import { Grid } from '@mui/material';
 import BasicTemplate from '../templates/BasicTemplate.js';
 import Inputs from '../components/AddPlans/Inputs.js';
@@ -9,8 +10,15 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
 import { dateFormat } from '../_helpers/formatting.js';
+import { companyAtom } from '../_state/company.js';
+import { userAtom } from '../_state/user.js';
+
+import { useActions as useAttendanceActions } from '../../_actions/attendacne.actions.js';
 
 export default function AddPlans() {
+  const company_list = useRecoilValue(companyAtom);
+  const user_list = useRecoilValue(userAtom);
+
   const selected_state = {
     company: useState(''),
     user: useState(''),
@@ -24,16 +32,48 @@ export default function AddPlans() {
   const [selected_date, setSeletedDate] = selected_state.date;
 
   const [selected_month, setSelectedMonth] = useState('');
+  const [table_title, setTableTitle] = useState('');
+
+  const attendacneActions = useAttendanceActions();
 
   useEffect(() => {
     setSelectedMonth(dateFormat(selected_date, 'M'));
   }, [selected_date]);
 
+  useEffect(() => {
+    console.log(company_list);
+    let target_company = company_list.filter(
+      (company_info) => company_info.company_id === selected_company,
+    );
+    let target_user = user_list.filter((user_info) => user_info.id === selected_user);
+
+    if (target_company.length || target_user.length) {
+      target_company = target_company.length ? target_company[0].company_name : '';
+      target_user = target_user.length ? target_user[0].user_name : '전체';
+
+      setTableTitle(`${selected_month}월 출퇴근 목록 (${target_company} - ${target_user})`);
+      console.log(table_title);
+    } else {
+      setTableTitle(`${selected_month}월 출퇴근 목록 (전체)`);
+    }
+  }, [selected_user, selected_company, selected_month]);
+
   const addAttendace = () => {
-    console.log(selected_company);
-    console.log(selected_user);
-    console.log(selected_time);
-    console.log(selected_date);
+    if (!selected_company) {
+      alert('회사를 먼저 선택하세요!');
+      return;
+    } else if (!selected_user) {
+      alert('유저를 먼저 선택하세요!');
+      return;
+    } else if (!selected_time) {
+      alert('시간을 먼저 선택하세요!');
+      return;
+    } else if (!selected_date) {
+      alert('날짜를 먼저 선택하세요!');
+      return;
+    }
+
+    attendacneActions.put(selected_user, selected_date + selected_time, selected_company, 'go');
   };
 
   return (
@@ -45,7 +85,7 @@ export default function AddPlans() {
               title={'등록'}
               card_action={
                 <Button variant="contained" onClick={addAttendace}>
-                  등록하기
+                  출근등록
                 </Button>
               }
             >
@@ -53,7 +93,7 @@ export default function AddPlans() {
             </BasicCard>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
-            <BasicCard title={selected_month == '' ? '' : selected_month + '월 ' + '출퇴근 목록'}>
+            <BasicCard title={table_title}>
               <Table selected_month={selected_month} selected_state={selected_state} />
             </BasicCard>
           </Grid>

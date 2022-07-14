@@ -6,7 +6,7 @@ import { dateFormat } from '../_helpers/formatting.js';
 
 export function useActions() {
   const fetchWrapper = useFetchWrapper();
-  const [attendance, setattendance] = useRecoilState(attendanceAtom);
+  const [attendance, setAttendance] = useRecoilState(attendanceAtom);
 
   const get = (date, company) => {
     let start_date = new Date(date);
@@ -24,7 +24,17 @@ export function useActions() {
     if (company) {
       payload['company'] = company;
     }
-    return fetchWrapper.post('http://localhost:9000/api/attendance', payload).then(setattendance);
+    return fetchWrapper.post('http://localhost:9000/api/attendance', payload).then(setAttendance);
+  };
+
+  const put = (user_id, attendance_date, company_id, type) => {
+    let payload = {
+      user_id,
+      attendance_date,
+      company_id,
+      type,
+    };
+    return fetchWrapper.put('http://localhost:9000/api/attendance', payload).then(setAttendance);
   };
 
   return { get };
