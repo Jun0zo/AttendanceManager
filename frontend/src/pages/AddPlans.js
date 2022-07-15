@@ -13,7 +13,7 @@ import { dateFormat } from '../_helpers/formatting.js';
 import { companyAtom } from '../_state/company.js';
 import { userAtom } from '../_state/user.js';
 
-import { useActions as useAttendanceActions } from '../../_actions/attendacne.actions.js';
+import { useActions as useAttendanceActions } from '../_actions/attendance.actions.js';
 
 export default function AddPlans() {
   const company_list = useRecoilValue(companyAtom);
@@ -73,7 +73,9 @@ export default function AddPlans() {
       return;
     }
 
-    attendacneActions.put(selected_user, selected_date + selected_time, selected_company, 'go');
+    const attendance_date =
+      dateFormat(selected_date, 'YYYY-MM-DD') + ' ' + dateFormat(selected_time, 'HH:MM');
+    attendacneActions.put(selected_user, attendance_date, selected_company, 'go');
   };
 
   return (
