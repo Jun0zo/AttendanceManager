@@ -23,4 +23,10 @@ export function dateFormat(date_object, format_string) {
   if (format_string === 'YYYY-MM') {
     return [String(year), zeroFormat(month)].join('-');
   }
+
+  if (format_string === 'HH:MM') {
+    const hours = date_object.getHours();
+    const minutes = date_object.getMinutes();
+    return `${zeroFormat(hours)}:${zeroFormat(minutes)}`;
+  }
 }

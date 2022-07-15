@@ -7,7 +7,7 @@ router.post("/attendance", (req, res) => {
   let end_date = req.body.end_date;
 
   let query = `SELECT * FROM attendance
-  INNER JOIN user ON attendance.attendance_id = user.id
+  INNER JOIN user ON attendance.user_id = user.id
   INNER JOIN company ON attendance.company_id = company.company_id
   WHERE attendance_date >= "${start_date}" AND attendance_date <= "${end_date}"`;
 
@@ -20,6 +20,9 @@ router.post("/attendance", (req, res) => {
     if (err) {
       return console.error(err.message);
     }
+
+    console.log(query);
+    console.log(rows);
     res.json(rows);
   });
 });

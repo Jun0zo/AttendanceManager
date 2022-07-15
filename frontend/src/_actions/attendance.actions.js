@@ -4,11 +4,16 @@ import { attendanceAtom } from '../_state/attendance.js';
 import { useFetchWrapper } from '../_helpers/fetch-wrapper.js';
 import { dateFormat } from '../_helpers/formatting.js';
 
+let search_cache = {};
+
 export function useActions() {
   const fetchWrapper = useFetchWrapper();
   const [attendance, setAttendance] = useRecoilState(attendanceAtom);
 
   const get = (date, company) => {
+    search_cache['date'] = date;
+    search_cache['company'] = company;
+
     let start_date = new Date(date);
     let end_date = new Date(date);
     end_date.setMonth(date.getMonth() + 1);
@@ -34,8 +39,10 @@ export function useActions() {
       company_id,
       type,
     };
-    return fetchWrapper.put('http://localhost:9000/api/attendance', payload).then(setAttendance);
+    return fetchWrapper.put('http://localhost:9000/api/attendance', payload).then((res) => {
+      get(search_cache['date'], search_cache['company']);
+    });
   };
 
-  return { get };
+  return { get, put };
 }
