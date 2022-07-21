@@ -10,7 +10,7 @@ export function useActions() {
   const fetchWrapper = useFetchWrapper();
   const [attendance, setAttendance] = useRecoilState(attendanceAtom);
 
-  const get = (date, company) => {
+  /* const get2 = (date, company) => {
     search_cache['date'] = date;
     search_cache['company'] = company;
 
@@ -32,7 +32,7 @@ export function useActions() {
     return fetchWrapper.post('http://localhost:9000/api/attendance', payload).then(setAttendance);
   };
 
-  const put = (user_id, attendance_date, company_id, type) => {
+  const put2 = (user_id, attendance_date, company_id, type) => {
     let payload = {
       user_id,
       attendance_date,
@@ -42,6 +42,14 @@ export function useActions() {
     return fetchWrapper.put('http://localhost:9000/api/attendance', payload).then((res) => {
       get(search_cache['date'], search_cache['company']);
     });
+  }; */
+
+  const get = (option) => {
+    return fetchWrapper.post('http://localhost:9000/api/attendance', option).then(setAttendance);
+  };
+
+  const put = (option) => {
+    return fetchWrapper.put('http://localhost:9000/api/attendance', option).then(setAttendance);
   };
 
   return { get, put };

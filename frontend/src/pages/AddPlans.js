@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
+/* @components */
 import BasicCard from '../components/Card/BasicCard.js';
 import { Grid } from '@mui/material';
 import BasicTemplate from '../templates/BasicTemplate.js';
@@ -9,10 +10,12 @@ import Table from '../components/AddPlans/Table.js';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
+/* atom states */
 import { dateFormat } from '../_helpers/formatting.js';
 import { companyAtom } from '../_state/company.js';
 import { userAtom } from '../_state/user.js';
 
+/* atom actions */
 import { useActions as useAttendanceActions } from '../_actions/attendance.actions.js';
 
 export default function AddPlans() {
