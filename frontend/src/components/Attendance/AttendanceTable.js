@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useRecoilValue } from 'recoil';
+import styles from './AttendanceTable.module.css';
 
 /* @components */
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -18,6 +19,7 @@ import { createTheme } from '@mui/material/styles';
 import BasicCard from '../../components/Card/BasicCard.js';
 import Inputs from '../../components/AddPlans/Inputs.js';
 import BasicTemplate from '../../templates/BasicTemplate.js';
+import AttendanceDialog from '../../components/Attendance/AttendanceDialog.js';
 
 /* atom states */
 import { attendanceAtom } from '../../_state/attendance.js';
@@ -29,12 +31,25 @@ const tableCellStyle = {
   borderLeft: '1px solid rgba(224, 224, 224, 1)',
 };
 
+/* modal info */
+
 function getRange(start, end) {
   if (start > end) return [];
   return [...Array(end - start).keys()].map((n) => n + start);
 }
 
 function OneSideTable(props) {
+  const { position, handleOpen, handleSelect, selected_month, selected_user } = props;
+
+  const openModal = (day) => {
+    let options = {day};
+     
+    options['time'] = day_dic.hasOwnProperty(day) ? day_dic[day].work_time : undefined;
+
+    handleSelect(options);
+    handleOpen(true);
+  };
+
   const attendance_list = useRecoilValue(attendanceAtom);
   const attendacneActions = useAttendanceActions();
 
@@ -43,7 +58,7 @@ function OneSideTable(props) {
 
   let today = new Date();
   let [start_date, end_date] = [new Date(), new Date()];
-  if (props.position === 'left') {
+  if (position === 'left') {
     start_date.setDate(1);
     end_date.setDate(32 / 2);
   } else {
@@ -72,15 +87,9 @@ function OneSideTable(props) {
     attendacneActions.get(options);
   }, []);
 
-  useEffect(() => {
-    window.addEventListener('hover', (e) => {
-      console(e.target);
-    });
-  });
-
   return (
     <TableContainer component={Paper} sx={{ my: 10 }}>
-      <Table aria-label="simple table">
+      <Table aria-label="simple table" size="small">
         <TableHead>
           <TableRow>
             <TableCell align="center">날짜</TableCell>
@@ -103,8 +112,9 @@ function OneSideTable(props) {
                 className="eventCell"
                 align="center"
                 sx={tableCellStyle}
-                onMouseOver={(e) => e.target.classList.add('green')}
-                onMouseOut={(e) => e.target.classList.remove('green')}
+                onMouseOver={(e) => e.target.classList.add(styles.hoverTableCell)}
+                onMouseOut={(e) => e.target.classList.remove(styles.hoverTableCell)}
+                onClick={(e) => openModal(day)}
               >
                 {day_dic.hasOwnProperty(day) ? day_dic[day].work_time : ''}
               </TableCell>
@@ -113,7 +123,7 @@ function OneSideTable(props) {
               </TableCell>
               <TableCell align="center" sx={tableCellStyle}>
                 {day_dic.hasOwnProperty(day) ? (
-                  <Button size="small" variant="contained">
+                  <Button size="small" variant="contained" sx={{ fontSize: 8 }}>
                     ab
                   </Button>
                 ) : (
@@ -129,14 +139,36 @@ function OneSideTable(props) {
 }
 
 export default function AttendanceTable() {
+  const [open, setOpen] = useState(false);
+  const [selected_attendance, setSelectedAttendance] = useState({});
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={12} md={6} lg={6}>
-        <OneSideTable position={'left'} />
+    <Fragment>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={6} lg={6}>
+          <OneSideTable
+            position={'left'}
+            handleOpen={setOpen}
+            handleSelect={setSelectedAttendance}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={6}>
+          <OneSideTable
+            position={'right'}
+            handleOpen={setOpen}
+            handleSelect={setSelectedAttendance}
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={6}>
-        <OneSideTable position={'right'} />
-      </Grid>
-    </Grid>
+
+      <AttendanceDialog
+        open={open}
+        handleClose={handleClose}
+        selected_attendance={selected_attendance}
+      />
+    </Fragment>
   );
 }
