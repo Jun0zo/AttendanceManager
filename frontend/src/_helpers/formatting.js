@@ -30,3 +30,12 @@ export function dateFormat(date_object, format_string) {
     return `${zeroFormat(hours)}:${zeroFormat(minutes)}`;
   }
 }
+
+export function timeFormat(time_string) {
+  let today = new Date();
+  if (time_string !== '' && time_string !== undefined) {
+    today.setHours(time_string.split(':')[0]);
+    today.setMinutes(time_string.split(':')[1]);
+  }
+  return today;
+}

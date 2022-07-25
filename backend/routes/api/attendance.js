@@ -32,10 +32,13 @@ router.post("/attendance", (req, res) => {
 });
 
 router.put("/attendance", (req, res) => {
-  let { user_id, attendance_date, company_id, type } = req.body;
+  let { attendance_id, user_id, attendance_date, company_id, type } = req.body;
 
-  let query = `INSERT INTO attendance VALUES (NULL, "${attendance_date}", ${company_id}, ${user_id}, "${type}");`;
-
+  if (attendance_id) {
+    let query = `UPDATE attendance SET attendance_date="${attendance_date}", ${company_id}, ${user_id}, "${type}");`;
+  } else {
+    let query = `INSERT INTO attendance VALUES (NULL, "${attendance_date}", ${company_id}, ${user_id}, "${type}");`;
+  }
   executeQuery(db, query).then((rows) => res.json(rows));
 });
 

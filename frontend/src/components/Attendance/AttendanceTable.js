@@ -16,9 +16,6 @@ import Button from '@mui/material/Button';
 import { createTheme } from '@mui/material/styles';
 
 /* components */
-import BasicCard from '../../components/Card/BasicCard.js';
-import Inputs from '../../components/AddPlans/Inputs.js';
-import BasicTemplate from '../../templates/BasicTemplate.js';
 import AttendanceDialog from '../../components/Attendance/AttendanceDialog.js';
 
 /* atom states */
@@ -26,6 +23,9 @@ import { attendanceAtom } from '../../_state/attendance.js';
 
 /* atom actions */
 import { useActions as useAttendanceActions } from '../../_actions/attendance.actions.js';
+
+/* helpers */
+import { timeFormat } from '../../_helpers/formatting.js';
 
 const tableCellStyle = {
   borderLeft: '1px solid rgba(224, 224, 224, 1)',
@@ -41,9 +41,9 @@ function getRange(start, end) {
 function OneSideTable(props) {
   const { position, handleOpen, handleSelect, selected_month, selected_user } = props;
 
-  const openModal = (day) => {
-    let options = {day};
-     
+  const openModal = (day, time_type) => {
+    let options = { day, time_type };
+
     options['time'] = day_dic.hasOwnProperty(day) ? day_dic[day].work_time : undefined;
 
     handleSelect(options);
@@ -114,7 +114,7 @@ function OneSideTable(props) {
                 sx={tableCellStyle}
                 onMouseOver={(e) => e.target.classList.add(styles.hoverTableCell)}
                 onMouseOut={(e) => e.target.classList.remove(styles.hoverTableCell)}
-                onClick={(e) => openModal(day)}
+                onClick={(e) => openModal(day, 'work_time')}
               >
                 {day_dic.hasOwnProperty(day) ? day_dic[day].work_time : ''}
               </TableCell>
@@ -168,6 +168,7 @@ export default function AttendanceTable() {
         open={open}
         handleClose={handleClose}
         selected_attendance={selected_attendance}
+        handleSelect={setSelectedAttendance}
       />
     </Fragment>
   );
