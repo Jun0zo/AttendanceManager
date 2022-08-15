@@ -67,11 +67,9 @@ function requestLoss(start_date, end_date) {
   return new Promise(function (resolve, reject) {
     requestLogin().then(function (json) {
       var sid = json["SID"];
-      console.log("sid", sid);
       options.headers.cookie = "_xm_webid_1_=-124771825; JSESSIONID=".concat(sid);
       options.body = "SSV:utf-8".concat(record_sep, "JSESSIONID=").concat(sid).concat(record_sep, "_xm_webid_1_=19878378").concat(record_sep, "Dataset:ds_search").concat(record_sep, "_RowType_").concat(unit_sep, "SALES_ORG_CD:STRING(256)").concat(unit_sep, "DRT_FRCS_TYPE:STRING(256)").concat(unit_sep, "STOR_CD:STRING(256)").concat(unit_sep, "FR_DATE:STRING(256)").concat(unit_sep, "TO_DATE:STRING(256)").concat(unit_sep, "PAGE_KEY:STRING(256)").concat(unit_sep, "ROW_COUNT:STRING(256)").concat(unit_sep, "CHK_REAL:STRING(256)").concat(record_sep, "N").concat(unit_sep, "005").concat(unit_sep, "20").concat(unit_sep, "0020280").concat(unit_sep).concat(start_date).concat(unit_sep).concat(end_date).concat(unit_sep).concat(end_of_text).concat(unit_sep).concat(end_of_text).concat(unit_sep, "1").concat(record_sep).concat(record_sep);
       (0, _fetchWrapper["default"])(url, options).then(function (res) {
-        console.log(res);
         var losses = [];
         var rows = res.split(record_sep).slice(6, -1);
         var column_names = rows.shift().trim().split(unit_sep).map(function (column_name) {

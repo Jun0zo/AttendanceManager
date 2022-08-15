@@ -64,12 +64,10 @@ export function requestLoss(start_date, end_date) {
   return new Promise((resolve, reject) => {
     requestLogin().then((json) => {
       let sid = json["SID"];
-      console.log("sid", sid);
       options.headers.cookie = `_xm_webid_1_=-124771825; JSESSIONID=${sid}`;
       options.body = `SSV:utf-8${record_sep}JSESSIONID=${sid}${record_sep}_xm_webid_1_=19878378${record_sep}Dataset:ds_search${record_sep}_RowType_${unit_sep}SALES_ORG_CD:STRING(256)${unit_sep}DRT_FRCS_TYPE:STRING(256)${unit_sep}STOR_CD:STRING(256)${unit_sep}FR_DATE:STRING(256)${unit_sep}TO_DATE:STRING(256)${unit_sep}PAGE_KEY:STRING(256)${unit_sep}ROW_COUNT:STRING(256)${unit_sep}CHK_REAL:STRING(256)${record_sep}N${unit_sep}005${unit_sep}20${unit_sep}0020280${unit_sep}${start_date}${unit_sep}${end_date}${unit_sep}${end_of_text}${unit_sep}${end_of_text}${unit_sep}1${record_sep}${record_sep}`;
 
       fetchWrapper(url, options).then((res) => {
-        console.log(res);
         let losses = [];
         let rows = res.split(record_sep).slice(6, -1);
         let column_names = rows
