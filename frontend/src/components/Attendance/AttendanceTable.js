@@ -11,9 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Grid } from '@mui/material';
-import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import { createTheme } from '@mui/material/styles';
 
 /* components */
 import AttendanceDialog from '../../components/Attendance/AttendanceDialog.js';
@@ -39,13 +37,20 @@ function getRange(start, end) {
 }
 
 function OneSideTable(props) {
-  const { position, handleOpen, handleSelect, selected_month, selected_user } = props;
+  const {
+    position,
+    handleOpen,
+    handleSelect,
+    selected_company_id,
+    selected_month,
+    selected_user_id,
+  } = props;
 
   const openModal = (day, time_type) => {
     let options = { day, time_type };
 
     options['time'] = day_dic.hasOwnProperty(day) ? day_dic[day].work_time : undefined;
-
+    
     handleSelect(options);
     handleOpen(true);
   };
@@ -83,9 +88,11 @@ function OneSideTable(props) {
     let options = {
       start_date: '2022-07-01',
       end_date: '2022-08-01',
+      user_id: selected_user_id,
+      company_id: selected_company_id,
     };
     attendacneActions.get(options);
-  }, []);
+  }, [selected_user_id, selected_company_id]);
 
   return (
     <TableContainer component={Paper} sx={{ my: 10 }}>
@@ -118,7 +125,14 @@ function OneSideTable(props) {
               >
                 {day_dic.hasOwnProperty(day) ? day_dic[day].work_time : ''}
               </TableCell>
-              <TableCell className="eventCell" align="center" sx={tableCellStyle}>
+              <TableCell
+                className="eventCell"
+                align="center"
+                sx={tableCellStyle}
+                onMouseOver={(e) => e.target.classList.add(styles.hoverTableCell)}
+                onMouseOut={(e) => e.target.classList.remove(styles.hoverTableCell)}
+                onClick={(e) => openModal(day, 'go_time')}
+              >
                 {day_dic.hasOwnProperty(day) ? day_dic[day].go_time : ''}
               </TableCell>
               <TableCell align="center" sx={tableCellStyle}>
@@ -138,7 +152,7 @@ function OneSideTable(props) {
   );
 }
 
-export default function AttendanceTable() {
+export default function AttendanceTable({ selected_company_id, selected_month, selected_user_id }) {
   const [open, setOpen] = useState(false);
   const [selected_attendance, setSelectedAttendance] = useState({});
 
@@ -153,6 +167,9 @@ export default function AttendanceTable() {
             position={'left'}
             handleOpen={setOpen}
             handleSelect={setSelectedAttendance}
+            selected_company_id={selected_company_id}
+            selected_month={selected_month}
+            selected_user_id={selected_user_id}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -160,6 +177,9 @@ export default function AttendanceTable() {
             position={'right'}
             handleOpen={setOpen}
             handleSelect={setSelectedAttendance}
+            selected_company_id={selected_company_id}
+            selected_month={selected_month}
+            selected_user_id={selected_user_id}
           />
         </Grid>
       </Grid>

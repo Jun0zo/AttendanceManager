@@ -18,11 +18,24 @@ import { useActions as useAttendanceActions } from '../_actions/attendance.actio
 export default function Attendance() {
   const [selected_company_id, setSelectedCompanyId] = useState(-1);
   const [selected_user_id, setSelectedUserId] = useState(-1);
+  const [selected_month, setSelectedMonth] = useState(-1);
   return (
     <BasicTemplate>
       <Container>
         근퇴관리
-        <AttendanceTable />
+        <Inputs
+          selected_company_id={selected_company_id}
+          selected_user_id={selected_user_id}
+          selected_month={selected_month}
+          setSelectedCompanyId={setSelectedCompanyId}
+          setSelectedUserId={setSelectedUserId}
+          setSelectedMonth={setSelectedMonth}
+        />
+        <AttendanceTable
+          selected_company_id={selected_company_id}
+          selected_month={selected_month}
+          selected_user_id={selected_user_id}
+        />
       </Container>
     </BasicTemplate>
   );

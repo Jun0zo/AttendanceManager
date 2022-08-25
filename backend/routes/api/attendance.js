@@ -13,7 +13,7 @@ router.post("/attendance", (req, res) => {
     work_time,
     go_time,
   } = req.body;
-  let query = `SELECT * FROM attendance
+  let query = `SELECT attendance_id, attendance_date, work_time, go_time, attendance.user_id, attendance.company_id, user.user_name, company.company_name FROM attendance
   INNER JOIN user ON attendance.user_id = user.id
   INNER JOIN company ON attendance.company_id = company.company_id
   WHERE `;
@@ -22,10 +22,10 @@ router.post("/attendance", (req, res) => {
   if (attendance_id) add_query_list.push(`attendance_id = ${attendance_id}`);
   if (start_date) add_query_list.push(`attendance_date >= "${start_date}"`);
   if (end_date) add_query_list.push(`attendance_date <= "${end_date}"`);
-  if (user_id) add_query_list.push(`user_id = ${user_id}`);
-  if (company_id) add_query_list.push(`company_id = ${company_id}`);
-  if (work_time) add_query_list.push(`company_id = "${work_time}"`);
-  if (go_time) add_query_list.push(`company_id = "${go_time}"`);
+  if (user_id) add_query_list.push(`attendance.user_id = ${user_id}`);
+  if (company_id) add_query_list.push(`attendance.company_id = ${company_id}`);
+  if (work_time) add_query_list.push(`work_time = "${work_time}"`);
+  if (go_time) add_query_list.push(`go_time = "${go_time}"`);
   query += add_query_list.join(" AND ");
 
   executeQuery(db, query).then((rows) => res.json(rows));

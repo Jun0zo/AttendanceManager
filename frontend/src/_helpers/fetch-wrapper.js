@@ -6,7 +6,6 @@ export function useFetchWrapper() {
         headers: authHeader(url),
       };
       if (body) {
-        console.log(body);
         requestOptions.headers['Content-Type'] = 'application/json';
         requestOptions.body = JSON.stringify(body);
       }
@@ -16,9 +15,7 @@ export function useFetchWrapper() {
 
   const handleResponse = (response) => {
     return response.text().then((text) => {
-      console.log(text);
       const data = text && JSON.parse(text);
-      console.log('dat:', data);
       if (!response.ok) {
         if ([401, 403].includes(response.status)) {
           // && auth?.token) {

@@ -27,9 +27,8 @@ function saveLoss(losses) {
 
       let placeholders = value_list.map((value) => "?").join(",");
       sql_query += "(" + placeholders + ")";
-      console.log(sql_query);
       db.run(sql_query, value_list, (err) => {
-        // if (err) throw err;
+        if (err) console.log(err);
         console.log("done!");
       });
     }

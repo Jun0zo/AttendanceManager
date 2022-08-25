@@ -56,10 +56,9 @@ function saveLoss(losses) {
           return "?";
         }).join(",");
         sql_query += "(" + placeholders + ")";
-        console.log(sql_query);
 
         _db["default"].run(sql_query, value_list, function (err) {
-          // if (err) throw err;
+          if (err) console.log(err);
           console.log("done!");
         });
       };

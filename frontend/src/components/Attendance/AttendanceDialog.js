@@ -6,11 +6,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
 
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -19,9 +14,16 @@ import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 
 import { timeFormat } from '../../_helpers/formatting.js';
 
+/* atom states */
+import { attendanceAtom } from '../../_state/attendance.js';
+
+/* atom actions */
+import { useActions as useAttendanceActions } from '../../_actions/attendance.actions.js';
+
 function TimePicker(props) {
   const { selected_attendance, handleSelect } = props;
 
+  console.log(selected_attendance);
   console.log(timeFormat(selected_attendance.time));
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -44,13 +46,17 @@ function TimePicker(props) {
 export default function AttendanceDialog(props) {
   const { open, handleClose, selected_attendance, handleSelect } = props;
 
+  const attendance_list = useRecoilValue(attendanceAtom);
+  const attendacneActions = useAttendanceActions();
+
   const cancelAction = () => {
     handleClose();
   };
 
   const applayAction = () => {
     console.log(selected_attendance);
-
+    // selected_att
+    // attendacneActions.post();
     handleClose();
   };
 
@@ -61,8 +67,8 @@ export default function AttendanceDialog(props) {
         <TimePicker selected_attendance={selected_attendance} handleSelect={handleSelect} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={cancelAction}>Disagree</Button>
-        <Button onClick={applayAction}>Agree</Button>
+        <Button onClick={cancelAction}>취소</Button>
+        <Button onClick={applayAction}>적용</Button>
       </DialogActions>
     </Dialog>
   );
